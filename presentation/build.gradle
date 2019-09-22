@@ -1,3 +1,15 @@
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation koin.android
+    implementation koin.androidViewModel
+
+    implementation architectureDependencies.paging
+
+    implementation presentationDependencies.viewModel
+    implementation presentationDependencies.liveData
+    implementation presentationDependencies.fragment
+    implementation presentationDependencies.map
+    implementation presentationDependencies.constraintlayout
+    implementation presentationDependencies.recyclerView
+    implementation presentationDependencies.cardView
+    implementation presentationDependencies.appCompat
 }

@@ -3,15 +3,15 @@ package com.mdelbel.android.pedidosya.gateway.paging
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.domain.RestaurantsQuery
 import com.mdelbel.android.pedidosya.gateway.Failed
 import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.Loading
 import com.mdelbel.android.pedidosya.gateway.RequestState
 import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
+import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
 
 internal class RestaurantDataSource(
-    private val query: RestaurantsQuery,
+    private val query: QueryDto,
     private val service: RestaurantsService
 ) : PageKeyedDataSource<Int, Restaurant>() {
 

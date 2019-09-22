@@ -3,3 +3,6 @@ ignore:
   # GATEWAY
   - "**/api/**" # Remove all API communication related files
   - "**/RestaurantsRepository.kt"
+  # PRESENTATION
+  - "**/RestaurantsOnListScreen.kt"
+  - "**/RestaurantsAdapter.kt"

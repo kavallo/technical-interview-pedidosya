@@ -1,3 +1,9 @@
 apply plugin: 'kotlin-android-extensions'
 
-android.defaultConfig.applicationId = "com.mdelbel.android.zygote.testapp"
+android.defaultConfig.applicationId = "com.mdelbel.android.pedidosya.app"
+
+dependencies {
+    implementation koin.android
+
+    implementation presentationDependencies.appCompat
+}

@@ -1,3 +1,3 @@
 package com.mdelbel.android.pedidosya.domain
 
-class Restaurant
+data class Restaurant(val id: Long)

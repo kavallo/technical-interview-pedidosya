@@ -4,7 +4,7 @@ import com.mdelbel.android.pedidosya.gateway.RestaurantsRepository
 import com.mdelbel.android.pedidosya.gateway.api.ApiClient
 import org.koin.dsl.module
 
-val topMoviesGatewayModule = module {
+val gatewayModule = module {
 
     single { ApiClient.createVehiclesService() }
 
