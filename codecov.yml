@@ -1,1 +1,4 @@
-# TODO configure CodeCov in here
+ignore:
+  - "**/di/*Module.kt" # Remove all Koin's modules
+  # GATEWAY
+  - "**/api/**" # Remove all API communication related files

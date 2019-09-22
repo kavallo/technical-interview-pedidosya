@@ -1,3 +1,16 @@
 ext {
 
+    koin = [
+            android         : "org.koin:koin-android:2.0.1",
+            androidViewModel: "org.koin:koin-android-viewmodel:2.0.1"
+    ]
+
+    architectureDependencies = [
+            paging: "androidx.paging:paging-runtime-ktx:2.1.0"
+    ]
+
+    gatewayDependencies = [
+            retrofit     : "com.squareup.retrofit2:retrofit:2.6.1",
+            gsonConverter: "com.squareup.retrofit2:converter-gson:2.0.0"
+    ]
 }

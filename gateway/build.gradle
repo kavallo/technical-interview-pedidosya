@@ -1,0 +1,14 @@
+android {
+    defaultConfig {
+        buildConfigField "String", "PEDIDOS_YA_API", "\"http://stg-api.pedidosya.com/public/v1/\""
+    }
+}
+
+dependencies {
+    implementation koin.android
+
+    implementation architectureDependencies.paging
+
+    implementation gatewayDependencies.retrofit
+    implementation gatewayDependencies.gsonConverter
+}
