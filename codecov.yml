@@ -2,3 +2,4 @@ ignore:
   - "**/di/*Module.kt" # Remove all Koin's modules
   # GATEWAY
   - "**/api/**" # Remove all API communication related files
+  - "**/RestaurantsRepository.kt"

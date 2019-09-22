@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.domain.RestaurantsQuery
 import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
 import com.mdelbel.android.pedidosya.gateway.dto.RestaurantCollectionDto
+import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +19,7 @@ class RestaurantDataSourceListingTest {
 
     @Test
     fun `loadInitial should call callback with fetched initial movies`() {
-        val query = mock<RestaurantsQuery> {
+        val query = mock<QueryDto> {
             on { countryId() } doReturn 1
             on { pointAsString() } doReturn "-34.9033,-56.1882"
         }
@@ -53,7 +53,7 @@ class RestaurantDataSourceListingTest {
 
     @Test
     fun `loadAfter should call callback with fetched next movies`() {
-        val query = mock<RestaurantsQuery> {
+        val query = mock<QueryDto> {
             on { countryId() } doReturn 1
             on { pointAsString() } doReturn "-34.9033,-56.1882"
         }
@@ -87,7 +87,7 @@ class RestaurantDataSourceListingTest {
 
     @Test
     fun `loadBefore should not fetched next movies`() {
-        val query = mock<RestaurantsQuery>()
+        val query = mock<QueryDto>()
         val service = mock<RestaurantsService>()
         val source = RestaurantDataSource(query, service)
 

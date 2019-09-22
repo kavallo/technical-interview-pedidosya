@@ -5,12 +5,12 @@ import androidx.lifecycle.Observer
 import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.domain.RestaurantsQuery
 import com.mdelbel.android.pedidosya.gateway.Failed
 import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.Loading
 import com.mdelbel.android.pedidosya.gateway.RequestState
 import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
+import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +24,7 @@ class RestaurantDataSourceStateTest {
 
     @Test
     fun `loadInitial should post loaded`() {
-        val query = mock<RestaurantsQuery> {
+        val query = mock<QueryDto> {
             on { countryId() } doReturn 1
             on { pointAsString() } doReturn "-34.9033,-56.1882"
         }
@@ -57,7 +57,7 @@ class RestaurantDataSourceStateTest {
 
     @Test
     fun `loadInitial with an error should post fail with the cause`() {
-        val query = mock<RestaurantsQuery> {
+        val query = mock<QueryDto> {
             on { countryId() } doReturn 1
             on { pointAsString() } doReturn "-34.9033,-56.1882"
         }
@@ -90,7 +90,7 @@ class RestaurantDataSourceStateTest {
 
     @Test
     fun `loadAfter should post loaded`() {
-        val query = mock<RestaurantsQuery> {
+        val query = mock<QueryDto> {
             on { countryId() } doReturn 1
             on { pointAsString() } doReturn "-34.9033,-56.1882"
         }
@@ -123,7 +123,7 @@ class RestaurantDataSourceStateTest {
 
     @Test
     fun `loadAfter with an error should post fail with the cause`() {
-        val query = mock<RestaurantsQuery> {
+        val query = mock<QueryDto> {
             on { countryId() } doReturn 1
             on { pointAsString() } doReturn "-34.9033,-56.1882"
         }
