@@ -1,2 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mdelbel.android.pedidosya.presentation"/>
+          package="com.mdelbel.android.pedidosya.presentation">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:usesCleartextTraffic="true"/>
+</manifest>

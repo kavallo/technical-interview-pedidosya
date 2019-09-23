@@ -12,4 +12,5 @@ dependencies {
     implementation presentationDependencies.recyclerView
     implementation presentationDependencies.cardView
     implementation presentationDependencies.appCompat
+    implementation presentationDependencies.fresco
 }

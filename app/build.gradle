@@ -8,4 +8,5 @@ dependencies {
 
     implementation presentationDependencies.appCompat
     implementation presentationDependencies.fragment
+    implementation presentationDependencies.fresco
 }
