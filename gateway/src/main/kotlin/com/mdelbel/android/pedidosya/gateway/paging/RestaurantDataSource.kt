@@ -47,13 +47,17 @@ internal class RestaurantDataSource(
     }
 
     private fun fetch(page: Int, size: Int): Pair<List<Restaurant>, Int?> {
-        val restaurantsDto = service.fetchRestaurants(
-            coordinate = query.pointAsString(),
-            countryId = query.countryId(),
-            page = page,
-            pageSize = size
-        )
-        val nextPage = restaurantsDto.nextPage(current = page, pageSize = size)
+        val restaurantsDto = service
+            .fetchRestaurants(
+                coordinate = query.pointAsString(),
+                countryId = query.countryId(),
+                page = page,
+                pageSize = size
+            )
+            .execute()
+            .body()
+
+        val nextPage = restaurantsDto!!.nextPage(current = page, pageSize = size)
 
         return Pair(restaurantsDto.asModel(), nextPage)
     }

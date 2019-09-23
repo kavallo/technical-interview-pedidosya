@@ -5,12 +5,14 @@ import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
 import com.mdelbel.android.pedidosya.domain.Restaurant
 import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
-import com.mdelbel.android.pedidosya.gateway.dto.RestaurantCollectionDto
 import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
+import com.mdelbel.android.pedidosya.gateway.dto.RestaurantCollectionDto
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import retrofit2.Call
+import retrofit2.Response
 
 class RestaurantDataSourceListingTest {
 
@@ -28,6 +30,9 @@ class RestaurantDataSourceListingTest {
             on { asModel() } doReturn expectedRestaurants
             on { nextPage(1, 20) } doReturn 2
         }
+        val call = mock<Call<RestaurantCollectionDto>> {
+            on { execute() } doReturn Response.success(expectedRestaurantsDto)
+        }
         val service = mock<RestaurantsService> {
             on {
                 fetchRestaurants(
@@ -36,7 +41,7 @@ class RestaurantDataSourceListingTest {
                     page = 1,
                     pageSize = 20
                 )
-            } doReturn expectedRestaurantsDto
+            } doReturn call
         }
         val source = RestaurantDataSource(query, service)
 
@@ -62,6 +67,9 @@ class RestaurantDataSourceListingTest {
             on { asModel() } doReturn expectedRestaurants
             on { nextPage(2, 20) } doReturn 3
         }
+        val call = mock<Call<RestaurantCollectionDto>> {
+            on { execute() } doReturn Response.success(expectedRestaurantsDto)
+        }
         val service = mock<RestaurantsService> {
             on {
                 fetchRestaurants(
@@ -70,7 +78,7 @@ class RestaurantDataSourceListingTest {
                     page = 2,
                     pageSize = 20
                 )
-            } doReturn expectedRestaurantsDto
+            } doReturn call
         }
         val source = RestaurantDataSource(query, service)
 

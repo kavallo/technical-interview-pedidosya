@@ -1,6 +1,7 @@
 package com.mdelbel.android.pedidosya.gateway.api
 
 import com.mdelbel.android.pedidosya.gateway.dto.RestaurantCollectionDto
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,5 +13,5 @@ internal interface RestaurantsService {
         @Query("country") countryId: Int,
         @Query("offset") page: Int,
         @Query("max") pageSize: Int
-    ): RestaurantCollectionDto
+    ): Call<RestaurantCollectionDto>
 }
