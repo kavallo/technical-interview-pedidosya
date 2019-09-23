@@ -8,9 +8,9 @@ data class RestaurantDto(
     val name: String,
     val coordinates: String,
     val generalScore: Double,
-    val allCategories: String,
     val logo: String,
-    val deliveryTime: String
+    val deliveryTime: String,
+    val hasOnlinePaymentMethods: Boolean
 ) {
 
     fun asModel(): Restaurant {
@@ -23,11 +23,11 @@ data class RestaurantDto(
         return Restaurant(
             id = id,
             name = name,
-            description = allCategories,
             coordinates = coordinatesPoint,
             score = generalScore,
-            logoUrl = "https://img.pystatic.com/$logo",
-            deliveryTime = deliveryTime
+            logoUrl = "https://img.pystatic.com/restaurants/$logo",
+            deliveryTime = deliveryTime,
+            hasOnlinePaymentMethods = hasOnlinePaymentMethods
         )
     }
 }

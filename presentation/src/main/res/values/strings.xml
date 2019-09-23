@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Presentation</string>
+
+    <string name="restaurant_accept_online_payment">Acepta pago online</string>
+    <string name="restaurant_cash_payment">Pagas cuando recibes</string>
 </resources>

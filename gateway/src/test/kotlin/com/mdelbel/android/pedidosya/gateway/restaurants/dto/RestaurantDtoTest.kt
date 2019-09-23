@@ -12,20 +12,20 @@ class RestaurantDtoTest {
         val expected = Restaurant(
             id = 123,
             name = "La cocina de Matias",
-            description = "Milanesas,Bebidas,Picadas,Pizzas,Postres,Hamburguesas",
             coordinates = Point(latitude = -34.8895, longitude = -56.1907),
             score = 5.0,
-            logoUrl = "https://img.pystatic.com/la-fachada-logo.jpg",
-            deliveryTime = "Entre 60' y 90'"
+            logoUrl = "https://img.pystatic.com/restaurants/la-fachada-logo.jpg",
+            deliveryTime = "Entre 60' y 90'",
+            hasOnlinePaymentMethods = true
         )
         val restaurantDto = RestaurantDto(
             id = 123,
             name = "La cocina de Matias",
             coordinates = "-34.8895,-56.1907",
             generalScore = 5.0,
-            allCategories = "Milanesas,Bebidas,Picadas,Pizzas,Postres,Hamburguesas",
             logo = "la-fachada-logo.jpg",
-            deliveryTime = "Entre 60' y 90'"
+            deliveryTime = "Entre 60' y 90'",
+            hasOnlinePaymentMethods = true
         )
 
         val restaurant = restaurantDto.asModel()

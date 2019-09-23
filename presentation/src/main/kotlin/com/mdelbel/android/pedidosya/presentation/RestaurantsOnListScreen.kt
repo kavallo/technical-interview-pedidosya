@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.mdelbel.android.pedidosya.presentation.list.MarginItemDecoration
 import com.mdelbel.android.pedidosya.presentation.list.RestaurantsAdapter
 import kotlinx.android.synthetic.main.screen_restaurants_on_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -33,6 +34,7 @@ class RestaurantsOnListScreen : Fragment() {
     }
 
     private fun setUpList() {
+        restaurants.addItemDecoration(MarginItemDecoration())
         restaurants.adapter = restaurantsAdapter
     }
 
