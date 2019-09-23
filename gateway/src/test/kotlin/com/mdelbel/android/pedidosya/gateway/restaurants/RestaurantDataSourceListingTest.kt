@@ -1,12 +1,12 @@
-package com.mdelbel.android.pedidosya.gateway.paging
+package com.mdelbel.android.pedidosya.gateway.restaurants
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
+import com.mdelbel.android.pedidosya.domain.Country
+import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
-import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
-import com.mdelbel.android.pedidosya.gateway.dto.RestaurantCollectionDto
+import com.mdelbel.android.pedidosya.gateway.restaurants.dto.RestaurantCollectionDto
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
 import org.junit.Test
@@ -21,10 +21,8 @@ class RestaurantDataSourceListingTest {
 
     @Test
     fun `loadInitial should call callback with fetched initial movies`() {
-        val query = mock<QueryDto> {
-            on { countryId() } doReturn 1
-            on { pointAsString() } doReturn "-34.9033,-56.1882"
-        }
+        val point = mock<Point> { on { asString() } doReturn "-34.9033,-56.1882" }
+        val country = mock<Country> { on { id } doReturn 1 }
         val expectedRestaurants = listOf<Restaurant>(mock())
         val expectedRestaurantsDto = mock<RestaurantCollectionDto> {
             on { asModel() } doReturn expectedRestaurants
@@ -43,7 +41,7 @@ class RestaurantDataSourceListingTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(query, service)
+        val source = RestaurantDataSource(point, country, service)
 
         val params = PageKeyedDataSource.LoadInitialParams<Int>(20, true)
         val callback = mock<PageKeyedDataSource.LoadInitialCallback<Int, Restaurant>>()
@@ -58,10 +56,8 @@ class RestaurantDataSourceListingTest {
 
     @Test
     fun `loadAfter should call callback with fetched next movies`() {
-        val query = mock<QueryDto> {
-            on { countryId() } doReturn 1
-            on { pointAsString() } doReturn "-34.9033,-56.1882"
-        }
+        val point = mock<Point> { on { asString() } doReturn "-34.9033,-56.1882" }
+        val country = mock<Country> { on { id } doReturn 1 }
         val expectedRestaurants = listOf<Restaurant>(mock())
         val expectedRestaurantsDto = mock<RestaurantCollectionDto> {
             on { asModel() } doReturn expectedRestaurants
@@ -80,7 +76,7 @@ class RestaurantDataSourceListingTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(query, service)
+        val source = RestaurantDataSource(point, country, service)
 
         val params = PageKeyedDataSource.LoadParams(2, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
@@ -95,9 +91,10 @@ class RestaurantDataSourceListingTest {
 
     @Test
     fun `loadBefore should not fetched next movies`() {
-        val query = mock<QueryDto>()
+        val point = mock<Point> { on { asString() } doReturn "-34.9033,-56.1882" }
+        val country = mock<Country> { on { id } doReturn 1 }
         val service = mock<RestaurantsService>()
-        val source = RestaurantDataSource(query, service)
+        val source = RestaurantDataSource(point, country, service)
 
         val params = mock<PageKeyedDataSource.LoadParams<Int>>()
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()

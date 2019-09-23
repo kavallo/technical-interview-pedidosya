@@ -7,7 +7,7 @@ import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.domain.Restaurant
 import com.mdelbel.android.pedidosya.domain.Uruguay
 import com.mdelbel.android.pedidosya.gateway.RequestState
-import com.mdelbel.android.pedidosya.gateway.RestaurantsRepository
+import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsRepository
 
 class RestaurantsViewModel(repository: RestaurantsRepository) : ViewModel() {
 

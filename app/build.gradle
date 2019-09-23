@@ -4,6 +4,8 @@ android.defaultConfig.applicationId = "com.mdelbel.android.pedidosya.app"
 
 dependencies {
     implementation koin.android
+    implementation koin.androidViewModel
 
     implementation presentationDependencies.appCompat
+    implementation presentationDependencies.fragment
 }

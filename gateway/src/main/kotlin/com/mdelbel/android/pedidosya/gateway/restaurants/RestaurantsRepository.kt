@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.gateway
+package com.mdelbel.android.pedidosya.gateway.restaurants
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -7,9 +7,8 @@ import androidx.paging.toLiveData
 import com.mdelbel.android.pedidosya.domain.Country
 import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
-import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
-import com.mdelbel.android.pedidosya.gateway.paging.RestaurantDataSourceFactory
+import com.mdelbel.android.pedidosya.gateway.PagedListing
+import com.mdelbel.android.pedidosya.gateway.RequestState
 
 class RestaurantsRepository internal constructor(private val service: RestaurantsService) {
 
@@ -18,16 +17,15 @@ class RestaurantsRepository internal constructor(private val service: Restaurant
     }
 
     fun fetchNearTo(point: Point, country: Country): PagedListing<Restaurant> {
-        val query = QueryDto(point, country)
-        val factory = RestaurantDataSourceFactory(query, service)
+        val factory = RestaurantDataSourceFactory(point, country, service)
 
         return PagedListing(
-            pagedList = pagedListFrom(factory),
+            pagedList = pageFrom(factory),
             requestState = requestStateFrom(factory)
         )
     }
 
-    private fun pagedListFrom(factory: RestaurantDataSourceFactory): LiveData<PagedList<Restaurant>> {
+    private fun pageFrom(factory: RestaurantDataSourceFactory): LiveData<PagedList<Restaurant>> {
         val pagedListConfiguration = PagedList.Config.Builder()
             .setInitialLoadSizeHint(PAGE_SIZE)
             .setPageSize(PAGE_SIZE)

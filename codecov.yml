@@ -2,7 +2,11 @@ ignore:
   - "**/di/*Module.kt" # Remove all Koin's modules
   # GATEWAY
   - "**/api/**" # Remove all API communication related files
+  - "**/AuthenticationInterceptor.kt"
+  - "**/AuthenticationGateway.kt"
   - "**/RestaurantsRepository.kt"
+  - "**/AuthenticationService.kt"
+  - "**/RestaurantsService.kt"
   # PRESENTATION
   - "**/RestaurantsOnListScreen.kt"
   - "**/RestaurantsAdapter.kt"

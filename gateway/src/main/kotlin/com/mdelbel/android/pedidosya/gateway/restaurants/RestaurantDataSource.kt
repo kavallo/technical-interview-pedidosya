@@ -1,17 +1,18 @@
-package com.mdelbel.android.pedidosya.gateway.paging
+package com.mdelbel.android.pedidosya.gateway.restaurants
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.mdelbel.android.pedidosya.domain.Country
+import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.domain.Restaurant
 import com.mdelbel.android.pedidosya.gateway.Failed
 import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.Loading
 import com.mdelbel.android.pedidosya.gateway.RequestState
-import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
-import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
 
 internal class RestaurantDataSource(
-    private val query: QueryDto,
+    private val point: Point,
+    private val country: Country,
     private val service: RestaurantsService
 ) : PageKeyedDataSource<Int, Restaurant>() {
 
@@ -49,8 +50,8 @@ internal class RestaurantDataSource(
     private fun fetch(page: Int, size: Int): Pair<List<Restaurant>, Int?> {
         val restaurantsDto = service
             .fetchRestaurants(
-                coordinate = query.pointAsString(),
-                countryId = query.countryId(),
+                coordinate = point.asString(),
+                countryId = country.id,
                 page = page,
                 pageSize = size
             )

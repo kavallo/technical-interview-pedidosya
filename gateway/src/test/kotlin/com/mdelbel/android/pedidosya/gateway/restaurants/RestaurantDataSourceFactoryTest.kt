@@ -1,9 +1,9 @@
-package com.mdelbel.android.pedidosya.gateway.paging
+package com.mdelbel.android.pedidosya.gateway.restaurants
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import com.mdelbel.android.pedidosya.gateway.api.RestaurantsService
-import com.mdelbel.android.pedidosya.gateway.dto.QueryDto
+import com.mdelbel.android.pedidosya.domain.Country
+import com.mdelbel.android.pedidosya.domain.Point
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Rule
 import org.junit.Test
@@ -16,9 +16,10 @@ class RestaurantDataSourceFactoryTest {
 
     @Test
     fun `create should post created data source to live data`() {
-        val query = mock<QueryDto>()
+        val point = mock<Point>()
+        val country = mock<Country>()
         val service = mock<RestaurantsService>()
-        val factory = RestaurantDataSourceFactory(query, service)
+        val factory = RestaurantDataSourceFactory(point, country, service)
 
         val dataSource = factory.create()
 
