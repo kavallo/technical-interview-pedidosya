@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.gateway.dto
+package com.mdelbel.android.pedidosya.gateway.restaurants.dto
 
 import org.junit.Test
 

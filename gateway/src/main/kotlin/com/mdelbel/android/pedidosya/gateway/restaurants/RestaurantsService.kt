@@ -1,6 +1,6 @@
-package com.mdelbel.android.pedidosya.gateway.api
+package com.mdelbel.android.pedidosya.gateway.restaurants
 
-import com.mdelbel.android.pedidosya.gateway.dto.RestaurantCollectionDto
+import com.mdelbel.android.pedidosya.gateway.restaurants.dto.RestaurantCollectionDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

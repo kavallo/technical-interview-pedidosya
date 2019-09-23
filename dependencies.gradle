@@ -10,8 +10,9 @@ ext {
     ]
 
     gatewayDependencies = [
-            retrofit     : "com.squareup.retrofit2:retrofit:2.6.1",
-            gsonConverter: "com.squareup.retrofit2:converter-gson:2.0.0"
+            retrofit          : "com.squareup.retrofit2:retrofit:2.6.1",
+            gsonConverter     : "com.squareup.retrofit2:converter-gson:2.0.0",
+            loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:3.12.1"
     ]
 
     presentationDependencies = [
