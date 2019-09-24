@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -41,17 +42,13 @@ class UserLocationScreen : Fragment() {
     private fun setUpMapWhenIsReady() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.use_location_map) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
-            val point = userLocationViewModel.obtainLastKnown()
-
-            setUpMap(point, googleMap)
-            setUpCard(point)
+            setUpMap(googleMap)
+            observeLocationUpdates(googleMap)
         }
     }
 
-    private fun setUpMap(point: Point, map: GoogleMap) {
-        selectPointOnMap(LatLng(point.latitude, point.longitude), map)
-
-        map.setOnMapClickListener { selectPointOnMap(it, map) }
+    private fun setUpMap(map: GoogleMap) {
+        map.setOnMapClickListener { userLocationViewModel.update(Point(it.latitude, it.longitude)) }
 
         val resources = context!!.resources
         val paddingBottom = resources.getDimensionPixelOffset(R.dimen.user_location_map_padding_bottom)
@@ -59,19 +56,23 @@ class UserLocationScreen : Fragment() {
         map.setPadding(paddingHorizontal, 0, paddingHorizontal, paddingBottom)
     }
 
-
-    private fun setUpCard(point: Point) {
-        location_description.text = point.asString()
-        location_action.setOnClickListener {
-            // TODO
-        }
+    private fun observeLocationUpdates(map: GoogleMap) {
+        userLocationViewModel.location.observe(this, Observer { point ->
+            selectPointOnMap(point, map)
+            selectPointOnCard(point)
+        })
     }
 
-    private fun selectPointOnMap(point: LatLng, map: GoogleMap) {
+    private fun selectPointOnCard(point: Point) {
+        location_description.text = point.asString()
+        location_action.setOnClickListener { userLocationViewModel.save() }
+    }
+
+    private fun selectPointOnMap(point: Point, map: GoogleMap) {
         map.clear()
 
         val markerOption = MarkerOptions()
-            .position(point)
+            .position(LatLng(point.latitude, point.longitude))
             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_location))
 
         with(map.addMarker(markerOption)) {

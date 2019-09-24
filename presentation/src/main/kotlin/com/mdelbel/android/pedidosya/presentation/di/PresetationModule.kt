@@ -10,7 +10,7 @@ val presentationModule = module {
 
     viewModel { AuthenticationViewModel(authenticationGateway = get()) }
 
-    viewModel { UserLocationViewModel(locationRepository = get()) }
+    viewModel { UserLocationViewModel(userLocationRepository = get()) }
 
     viewModel { RestaurantsViewModel(repository = get()) }
 }
