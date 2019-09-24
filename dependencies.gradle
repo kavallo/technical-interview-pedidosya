@@ -23,6 +23,7 @@ ext {
             recyclerView    : "androidx.recyclerview:recyclerview:1.0.0",
             map             : "com.google.android.gms:play-services-maps:17.0.0",
             cardView        : "androidx.cardview:cardview:1.0.0",
-            appCompat       : "androidx.appcompat:appcompat:1.1.0"
+            appCompat       : "androidx.appcompat:appcompat:1.1.0",
+            fresco          : "com.facebook.fresco:fresco:2.0.0"
     ]
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_restaurant_margin_top">10dp</dimen>
+    <dimen name="item_restaurant_margin_left">8dp</dimen>
+    <dimen name="item_restaurant_margin_right">8dp</dimen>
+
+    <dimen name="item_restaurant_image_radius">4dp</dimen>
+</resources>

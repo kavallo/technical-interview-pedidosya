@@ -10,3 +10,4 @@ ignore:
   # PRESENTATION
   - "**/RestaurantsOnListScreen.kt"
   - "**/RestaurantsAdapter.kt"
+  - "**/RestaurantViewHolder.kt"

@@ -35,7 +35,7 @@ internal class RestaurantsAdapter :
     // TODO place holder handling
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
         when (state is Loading) {
-            true -> holder.loading()
+            true -> {} // holder.loading()
             false -> holder.bindTo(restaurant = getItem(position)!!)
         }
     }
