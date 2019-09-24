@@ -14,7 +14,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.presentation.R
+import com.mdelbel.android.pedidosya.presentation.navigation.NavigationViewModel
+import com.mdelbel.android.pedidosya.presentation.navigation.RestaurantsNavigation
 import kotlinx.android.synthetic.main.view_location.*
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class UserLocationScreen : Fragment() {
@@ -24,6 +27,8 @@ class UserLocationScreen : Fragment() {
     }
 
     private val userLocationViewModel: UserLocationViewModel by viewModel()
+    private val navigationViewModel: NavigationViewModel by sharedViewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +70,10 @@ class UserLocationScreen : Fragment() {
 
     private fun selectPointOnCard(point: Point) {
         location_description.text = point.asString()
-        location_action.setOnClickListener { userLocationViewModel.save() }
+        location_action.setOnClickListener {
+            userLocationViewModel.save()
+            navigationViewModel.navigateTo(RestaurantsNavigation)
+        }
     }
 
     private fun selectPointOnMap(point: Point, map: GoogleMap) {

@@ -11,6 +11,8 @@ import com.mdelbel.android.pedidosya.gateway.Loading
 import com.mdelbel.android.pedidosya.presentation.AuthenticationViewModel
 import com.mdelbel.android.pedidosya.presentation.RestaurantsOnListScreen
 import com.mdelbel.android.pedidosya.presentation.location.UserLocationScreen
+import com.mdelbel.android.pedidosya.presentation.navigation.NavigationViewModel
+import com.mdelbel.android.pedidosya.presentation.navigation.RestaurantsNavigation
 import kotlinx.android.synthetic.main.screen_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -18,15 +20,19 @@ class MainScreen : AppCompatActivity() {
 
     companion object {
         private const val TAG_RESTAURANTS_FRAGMENT = "TAG_RESTAURANTS_FRAGMENT"
+        private const val USER_LOCATION_FRAGMENT = "USER_LOCATION_FRAGMENT"
     }
 
     private val authViewModel by viewModel<AuthenticationViewModel>()
+    private val navigationViewModel by viewModel<NavigationViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_main)
 
         if (savedInstanceState == null) obtainAccessToken()
+
+        observeNavigationRequest()
     }
 
     // TODO handle error and loading
@@ -34,13 +40,23 @@ class MainScreen : AppCompatActivity() {
         authViewModel.obtainAccessToken().observe(this, Observer { state ->
             when (state) {
                 is Loading -> Toast.makeText(this, "Loading", Toast.LENGTH_LONG).show()
-                is Loaded -> showRestaurants()
+                is Loaded -> showUserLocationMap()
                 is Failed -> Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
             }
         })
     }
 
+    private fun observeNavigationRequest() {
+        navigationViewModel.navigation.observe(this, Observer { state ->
+            if (state == RestaurantsNavigation) showRestaurants()
+        })
+    }
+
+    private fun showUserLocationMap() = supportFragmentManager.commit {
+        replace(main_container.id, UserLocationScreen(), USER_LOCATION_FRAGMENT)
+    }
+
     private fun showRestaurants() = supportFragmentManager.commit {
-        replace(main_container.id, UserLocationScreen(), TAG_RESTAURANTS_FRAGMENT)
+        replace(main_container.id, RestaurantsOnListScreen(), TAG_RESTAURANTS_FRAGMENT)
     }
 }
