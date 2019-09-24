@@ -7,4 +7,5 @@
     <string name="location_select_point">Seleccionar</string>
 
     <string name="restaurants_change_location">Localizar</string>
+    <string name="restaurants_show_on_map">Mapa</string>
 </resources>

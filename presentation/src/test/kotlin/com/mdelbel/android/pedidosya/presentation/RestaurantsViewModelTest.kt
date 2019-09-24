@@ -8,6 +8,7 @@ import com.mdelbel.android.pedidosya.domain.Uruguay
 import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.gateway.location.UserLocationRepository
 import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsRepository
+import com.mdelbel.android.pedidosya.presentation.restaurants.list.RestaurantsViewModel
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
@@ -30,7 +31,11 @@ class RestaurantsViewModelTest {
         val restaurantsRepository = mock<RestaurantsRepository> {
             on { fetchNearTo(point, Uruguay) } doReturn expected
         }
-        val viewModel = RestaurantsViewModel(userLocationRepository, restaurantsRepository)
+        val viewModel =
+            RestaurantsViewModel(
+                userLocationRepository,
+                restaurantsRepository
+            )
 
         val result = viewModel.fetchRestaurantsNearLastKnownLocation()
 
@@ -41,7 +46,11 @@ class RestaurantsViewModelTest {
     fun `fetchRestaurantsNearLastKnownLocation should pass Montevideo as default`() {
         val userLocationRepository = mock<UserLocationRepository>()
         val restaurantsRepository = mock<RestaurantsRepository>()
-        val viewModel = RestaurantsViewModel(userLocationRepository, restaurantsRepository)
+        val viewModel =
+            RestaurantsViewModel(
+                userLocationRepository,
+                restaurantsRepository
+            )
 
         viewModel.fetchRestaurantsNearLastKnownLocation()
 

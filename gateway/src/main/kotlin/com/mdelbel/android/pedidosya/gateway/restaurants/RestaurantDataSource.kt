@@ -13,7 +13,8 @@ import com.mdelbel.android.pedidosya.gateway.RequestState
 internal class RestaurantDataSource(
     private val point: Point,
     private val country: Country,
-    private val service: RestaurantsService
+    private val service: RestaurantsService,
+    private val cache: RestaurantsCache
 ) : PageKeyedDataSource<Int, Restaurant>() {
 
     internal val requestState = MutableLiveData<RequestState>()
@@ -23,12 +24,14 @@ internal class RestaurantDataSource(
         callback: LoadInitialCallback<Int, Restaurant>
     ) {
         fetch(page = 1, size = params.requestedLoadSize) { restaurants, next ->
+            cache.clearAndAddAll(restaurants)
             callback.onResult(restaurants, null, next)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Restaurant>) {
         fetch(page = params.key, size = params.requestedLoadSize) { restaurants, next ->
+            cache.addAll(restaurants)
             callback.onResult(restaurants, next)
         }
     }

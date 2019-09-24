@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.presentation
+package com.mdelbel.android.pedidosya.presentation.restaurants.list
 
 import androidx.lifecycle.ViewModel
 import com.mdelbel.android.pedidosya.domain.Point
