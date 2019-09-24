@@ -17,4 +17,5 @@ dependencies {
     implementation gatewayDependencies.retrofit
     implementation gatewayDependencies.gsonConverter
     implementation gatewayDependencies.loggingInterceptor
+    implementation gatewayDependencies.androidXCore
 }
