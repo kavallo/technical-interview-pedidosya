@@ -5,4 +5,6 @@
 
     <string name="location_selection_hint">Restaurants cercanos a:</string>
     <string name="location_select_point">Seleccionar</string>
+
+    <string name="restaurants_change_location">Localizar</string>
 </resources>

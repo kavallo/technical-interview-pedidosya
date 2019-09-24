@@ -13,6 +13,7 @@ import com.mdelbel.android.pedidosya.presentation.RestaurantsOnListScreen
 import com.mdelbel.android.pedidosya.presentation.location.UserLocationScreen
 import com.mdelbel.android.pedidosya.presentation.navigation.NavigationViewModel
 import com.mdelbel.android.pedidosya.presentation.navigation.RestaurantsNavigation
+import com.mdelbel.android.pedidosya.presentation.navigation.UserLocationNavigation
 import kotlinx.android.synthetic.main.screen_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,7 @@ class MainScreen : AppCompatActivity() {
         authViewModel.obtainAccessToken().observe(this, Observer { state ->
             when (state) {
                 is Loading -> Toast.makeText(this, "Loading", Toast.LENGTH_LONG).show()
-                is Loaded -> showUserLocationMap()
+                is Loaded -> showRestaurants()
                 is Failed -> Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
             }
         })
@@ -49,6 +50,7 @@ class MainScreen : AppCompatActivity() {
     private fun observeNavigationRequest() {
         navigationViewModel.navigation.observe(this, Observer { state ->
             if (state == RestaurantsNavigation) showRestaurants()
+            if (state == UserLocationNavigation) showUserLocationMap()
         })
     }
 
