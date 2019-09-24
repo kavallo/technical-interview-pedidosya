@@ -10,6 +10,7 @@ import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.Loading
 import com.mdelbel.android.pedidosya.presentation.AuthenticationViewModel
 import com.mdelbel.android.pedidosya.presentation.RestaurantsOnListScreen
+import com.mdelbel.android.pedidosya.presentation.location.UserLocationScreen
 import kotlinx.android.synthetic.main.screen_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -40,6 +41,6 @@ class MainScreen : AppCompatActivity() {
     }
 
     private fun showRestaurants() = supportFragmentManager.commit {
-        replace(main_container.id, RestaurantsOnListScreen(), TAG_RESTAURANTS_FRAGMENT)
+        replace(main_container.id, UserLocationScreen(), TAG_RESTAURANTS_FRAGMENT)
     }
 }
