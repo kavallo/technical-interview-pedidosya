@@ -6,6 +6,9 @@ dependencies {
     implementation koin.android
     implementation koin.androidViewModel
 
+    implementation architectureDependencies.navigationFragment
+    implementation architectureDependencies.navigationUi
+
     implementation presentationDependencies.appCompat
     implementation presentationDependencies.fragment
     implementation presentationDependencies.fresco

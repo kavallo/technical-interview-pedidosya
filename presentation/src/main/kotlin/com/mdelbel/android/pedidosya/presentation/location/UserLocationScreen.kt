@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -14,10 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.presentation.R
-import com.mdelbel.android.pedidosya.presentation.navigation.NavigationViewModel
-import com.mdelbel.android.pedidosya.presentation.navigation.RestaurantsNavigation
 import kotlinx.android.synthetic.main.view_location.*
-import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class UserLocationScreen : Fragment() {
@@ -27,8 +25,6 @@ class UserLocationScreen : Fragment() {
     }
 
     private val userLocationViewModel: UserLocationViewModel by viewModel()
-    private val navigationViewModel: NavigationViewModel by sharedViewModel()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +41,8 @@ class UserLocationScreen : Fragment() {
     }
 
     private fun setUpMapWhenIsReady() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.use_location_map) as SupportMapFragment
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.use_location_map) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
             setUpMap(googleMap)
             observeLocationUpdates(googleMap)
@@ -56,8 +53,10 @@ class UserLocationScreen : Fragment() {
         map.setOnMapClickListener { userLocationViewModel.update(Point(it.latitude, it.longitude)) }
 
         val resources = context!!.resources
-        val paddingBottom = resources.getDimensionPixelOffset(R.dimen.user_location_map_padding_bottom)
-        val paddingHorizontal = resources.getDimensionPixelOffset(R.dimen.user_location_map_padding_horizontal)
+        val paddingBottom =
+            resources.getDimensionPixelOffset(R.dimen.user_location_map_padding_bottom)
+        val paddingHorizontal =
+            resources.getDimensionPixelOffset(R.dimen.user_location_map_padding_horizontal)
         map.setPadding(paddingHorizontal, 0, paddingHorizontal, paddingBottom)
     }
 
@@ -71,8 +70,8 @@ class UserLocationScreen : Fragment() {
     private fun selectPointOnCard(point: Point) {
         location_description.text = point.asString()
         location_action.setOnClickListener {
-            userLocationViewModel.save()
-            navigationViewModel.navigateTo(RestaurantsNavigation)
+            userLocationViewModel.save(point)
+            findNavController().popBackStack(R.id.restaurantsOnListScreen, false)
         }
     }
 

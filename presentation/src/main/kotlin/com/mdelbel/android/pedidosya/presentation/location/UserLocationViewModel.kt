@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.gateway.location.UserLocationRepository
 
-class UserLocationViewModel(private val userLocationRepository: UserLocationRepository) : ViewModel() {
+class UserLocationViewModel(private val userLocationRepository: UserLocationRepository) :
+    ViewModel() {
 
     private val _location = MutableLiveData<Point>()
     internal val location: LiveData<Point> get() = _location
@@ -20,8 +21,7 @@ class UserLocationViewModel(private val userLocationRepository: UserLocationRepo
         _location.postValue(point)
     }
 
-    fun save() {
-        val selected = location.value!!
-        userLocationRepository.save(selected)
+    fun save(point: Point) {
+        userLocationRepository.save(point)
     }
 }

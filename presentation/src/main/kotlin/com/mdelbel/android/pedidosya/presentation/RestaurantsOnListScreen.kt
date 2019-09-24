@@ -2,23 +2,24 @@ package com.mdelbel.android.pedidosya.presentation
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.mdelbel.android.pedidosya.domain.Restaurant
+import com.mdelbel.android.pedidosya.gateway.Loaded
+import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.presentation.list.MarginItemDecoration
 import com.mdelbel.android.pedidosya.presentation.list.RestaurantsAdapter
 import kotlinx.android.synthetic.main.screen_restaurants_on_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import androidx.appcompat.app.AppCompatActivity
-import com.mdelbel.android.pedidosya.presentation.navigation.NavigationViewModel
-import com.mdelbel.android.pedidosya.presentation.navigation.UserLocationNavigation
-import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class RestaurantsOnListScreen : Fragment() {
 
-    private val restaurantsViewModel: RestaurantsViewModel by viewModel()
-    private val navigationViewModel: NavigationViewModel by sharedViewModel()
+    private val restaurantsViewModel by viewModel<RestaurantsViewModel>()
+    private val authenticationViewModel by viewModel<AuthenticationViewModel>()
 
-    private val restaurantsAdapter = RestaurantsAdapter()
+    private var restaurantsAdapter = RestaurantsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,19 +32,9 @@ class RestaurantsOnListScreen : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setUpList()
-        setHasOptionsMenu(true)
+        if (savedInstanceState == null) obtainAccessToken()
 
-        val activity = activity as AppCompatActivity?
-        activity!!.setSupportActionBar(toolbarView)
-        activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        toolbarView.setOnMenuItemClickListener {
-            navigationViewModel.navigateTo(UserLocationNavigation)
-            true
-        }
-
-        observeRestaurants()
-        observeRequestState()
+        setUpToolbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -51,18 +42,51 @@ class RestaurantsOnListScreen : Fragment() {
         inflater.inflate(R.menu.menu_restaurants, menu)
     }
 
+    private fun obtainAccessToken() {
+        authenticationViewModel.obtainAccessToken().observe(this, Observer { state ->
+            when (state) {
+                is Loaded -> observeRestaurantsNearLastKnownLocation()
+                // TODO handle Loading & Failed
+            }
+        })
+    }
+
+    private fun setUpToolbar() {
+        setHasOptionsMenu(true)
+
+        val activity = activity as AppCompatActivity?
+        activity!!.setSupportActionBar(toolbarView)
+
+        toolbarView.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_restaurantsOnListScreen_to_userLocationScreen)
+            true
+        }
+    }
+
+    private fun observeRestaurantsNearLastKnownLocation() {
+        val pagedListing = restaurantsViewModel.fetchRestaurantsNearLastKnownLocation()
+
+        setUpList()
+        observeRestaurants(pagedListing)
+        observeRequestState(pagedListing)
+    }
+
     private fun setUpList() {
         restaurants.addItemDecoration(MarginItemDecoration())
+
+        restaurantsAdapter = RestaurantsAdapter()
         restaurants.adapter = restaurantsAdapter
     }
 
-    private fun observeRestaurants() {
-        restaurantsViewModel.pages
-            .observe(this, Observer { movies -> restaurantsAdapter.submitList(movies) })
+    private fun observeRestaurants(pagedListing: PagedListing<Restaurant>) {
+        pagedListing.pagedList.observe(this, Observer { movies ->
+            restaurantsAdapter.submitList(movies)
+        })
     }
 
-    private fun observeRequestState() {
-        restaurantsViewModel.state
-            .observe(this, Observer { state -> restaurantsAdapter.onStateChanges(state) })
+    private fun observeRequestState(pagedListing: PagedListing<Restaurant>) {
+        pagedListing.pagedList.observe(this, Observer { movies ->
+            restaurantsAdapter.submitList(movies)
+        })
     }
 }

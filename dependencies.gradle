@@ -6,7 +6,9 @@ ext {
     ]
 
     architectureDependencies = [
-            paging: "androidx.paging:paging-runtime-ktx:2.1.0"
+            paging            : "androidx.paging:paging-runtime-ktx:2.1.0",
+            navigationFragment: "androidx.navigation:navigation-fragment-ktx:2.1.0",
+            navigationUi      : "androidx.navigation:navigation-ui-ktx:2.1.0"
     ]
 
     gatewayDependencies = [
