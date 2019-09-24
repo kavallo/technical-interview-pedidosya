@@ -1,20 +1,19 @@
-package com.mdelbel.android.pedidosya.presentation
+package com.mdelbel.android.pedidosya.presentation.restaurants.map
 
 import androidx.lifecycle.ViewModel
 import com.mdelbel.android.pedidosya.domain.Point
 import com.mdelbel.android.pedidosya.domain.Restaurant
 import com.mdelbel.android.pedidosya.domain.Uruguay
-import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.gateway.location.UserLocationRepository
-import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsRepository
+import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsCache
 
-class RestaurantsViewModel(
+class RestaurantsOnMapViewModel(
     private val userLocationRepository: UserLocationRepository,
-    private val restaurantsRepository: RestaurantsRepository
+    private val restaurantsCache: RestaurantsCache
 ) : ViewModel() {
 
-    internal fun fetchRestaurantsNearLastKnownLocation(): PagedListing<Restaurant> {
+    fun obtainAll(): List<Restaurant> {
         val point = userLocationRepository.obtainLastKnown(default = Point.Montevideo)
-        return restaurantsRepository.fetchNearTo(point, Uruguay)
+        return restaurantsCache.obtainOn(point, Uruguay).asList()
     }
 }

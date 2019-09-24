@@ -19,7 +19,8 @@ class RestaurantDataSourceFactoryTest {
         val point = mock<Point>()
         val country = mock<Country>()
         val service = mock<RestaurantsService>()
-        val factory = RestaurantDataSourceFactory(point, country, service)
+        val cache = mock<RestaurantsCache>()
+        val factory = RestaurantDataSourceFactory(point, country, service, cache)
 
         val dataSource = factory.create()
 

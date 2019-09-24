@@ -42,7 +42,8 @@ class RestaurantDataSourceStateTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(point, Uruguay, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, Uruguay, service, cache)
 
         val params = PageKeyedDataSource.LoadInitialParams<Int>(20, true)
         val callback = mock<PageKeyedDataSource.LoadInitialCallback<Int, Restaurant>>()
@@ -74,7 +75,8 @@ class RestaurantDataSourceStateTest {
                 )
             } doThrow cause
         }
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, country, service, cache)
         val params = PageKeyedDataSource.LoadParams(1, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
 
@@ -106,7 +108,8 @@ class RestaurantDataSourceStateTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(point, Uruguay, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, Uruguay, service, cache)
 
         val params = PageKeyedDataSource.LoadParams(2, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
@@ -138,7 +141,8 @@ class RestaurantDataSourceStateTest {
                 )
             } doThrow cause
         }
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, country, service, cache)
 
         val params = PageKeyedDataSource.LoadParams(2, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()

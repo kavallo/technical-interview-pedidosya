@@ -3,9 +3,7 @@ package com.mdelbel.android.pedidosya.gateway.restaurants
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
-import com.mdelbel.android.pedidosya.domain.Country
-import com.mdelbel.android.pedidosya.domain.Point
-import com.mdelbel.android.pedidosya.domain.Restaurant
+import com.mdelbel.android.pedidosya.domain.*
 import com.mdelbel.android.pedidosya.gateway.restaurants.dto.RestaurantCollectionDto
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
@@ -41,13 +39,15 @@ class RestaurantDataSourceListingTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache> { on { obtainOn(point, country) } doReturn RestaurantCollection() }
+        val source = RestaurantDataSource(point, country, service, cache)
 
         val params = PageKeyedDataSource.LoadInitialParams<Int>(20, true)
         val callback = mock<PageKeyedDataSource.LoadInitialCallback<Int, Restaurant>>()
 
         source.loadInitial(params, callback)
 
+        verify(cache).obtainOn(point, country)
         argumentCaptor<List<Restaurant>> {
             verify(callback).onResult(capture(), eq(null), eq(2))
             assertThat(firstValue).containsExactlyElementsIn(expectedRestaurants)
@@ -76,13 +76,15 @@ class RestaurantDataSourceListingTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache> { on { obtainOn(point, country) } doReturn RestaurantCollection() }
+        val source = RestaurantDataSource(point, country, service, cache)
 
         val params = PageKeyedDataSource.LoadParams(2, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
 
         source.loadAfter(params, callback)
 
+        verify(cache).obtainOn(point, country)
         argumentCaptor<List<Restaurant>> {
             verify(callback).onResult(capture(), eq(3))
             assertThat(firstValue).containsExactlyElementsIn(expectedRestaurants)
@@ -94,13 +96,15 @@ class RestaurantDataSourceListingTest {
         val point = mock<Point> { on { asString() } doReturn "-34.9033,-56.1882" }
         val country = mock<Country> { on { id } doReturn 1 }
         val service = mock<RestaurantsService>()
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, country, service, cache)
 
         val params = mock<PageKeyedDataSource.LoadParams<Int>>()
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
 
         source.loadBefore(params, callback)
 
+        verifyZeroInteractions(cache)
         verifyZeroInteractions(callback)
     }
 }

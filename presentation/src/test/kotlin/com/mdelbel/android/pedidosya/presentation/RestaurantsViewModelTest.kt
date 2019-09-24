@@ -8,6 +8,7 @@ import com.mdelbel.android.pedidosya.domain.Uruguay
 import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.gateway.location.UserLocationRepository
 import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsRepository
+import com.mdelbel.android.pedidosya.presentation.restaurants.list.RestaurantsViewModel
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock

@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/nav_graph.xml"
-            app:startDestination="@id/restaurantsOnListScreen">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/restaurantsOnListScreen">
 
-    <fragment android:id="@+id/restaurantsOnListScreen"
-              android:name="com.mdelbel.android.pedidosya.presentation.RestaurantsOnListScreen"
-              android:label="RestaurantsOnListScreen"
-              tools:layout="@layout/screen_restaurants_on_list">
+    <fragment
+        android:id="@+id/restaurantsOnListScreen"
+        android:name="com.mdelbel.android.pedidosya.presentation.restaurants.list.RestaurantsOnListScreen"
+        android:label="RestaurantsOnListScreen"
+        tools:layout="@layout/screen_restaurants_on_list">
 
-        <action android:id="@+id/action_restaurantsOnListScreen_to_userLocationScreen"
-                app:destination="@id/userLocationScreen"/>
+        <action
+            android:id="@+id/action_restaurantsOnListScreen_to_userLocationScreen"
+            app:destination="@id/userLocationScreen" />
+
+        <action
+            android:id="@+id/action_restaurantsOnListScreen_to_restaurantsOnMapScreen"
+            app:destination="@id/restaurantsOnMapScreen" />
     </fragment>
 
-    <fragment android:id="@+id/userLocationScreen"
-              android:name="com.mdelbel.android.pedidosya.presentation.location.UserLocationScreen"
-              android:label="UserLocationScreen"
-              tools:layout="@layout/screen_user_location"/>
+    <fragment
+        android:id="@+id/userLocationScreen"
+        android:name="com.mdelbel.android.pedidosya.presentation.location.UserLocationScreen"
+        android:label="UserLocationScreen"
+        tools:layout="@layout/screen_user_location" />
+
+    <fragment
+        android:id="@+id/restaurantsOnMapScreen"
+        android:name="com.mdelbel.android.pedidosya.presentation.restaurants.map.RestaurantsOnMapScreen"
+        android:label="RetaurantsOnMapScreen"
+        tools:layout="@layout/screen_restaurants_on_map" />
 </navigation>
