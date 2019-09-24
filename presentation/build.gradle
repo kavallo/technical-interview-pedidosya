@@ -1,8 +1,17 @@
+def clientSecret = obtainFromPropertiesOrEnvAsFallback('keychain.properties', 'google.map.api.key', 'googleMapApiKey')
+
+android {
+    defaultConfig {
+        manifestPlaceholders = [googleMapApiKey: "$clientSecret"]
+    }
+}
 dependencies {
     implementation koin.android
     implementation koin.androidViewModel
 
     implementation architectureDependencies.paging
+    implementation architectureDependencies.navigationFragment
+    implementation architectureDependencies.navigationUi
 
     implementation presentationDependencies.viewModel
     implementation presentationDependencies.liveData

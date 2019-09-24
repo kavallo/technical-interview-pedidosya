@@ -5,4 +5,7 @@
     <dimen name="item_restaurant_margin_right">8dp</dimen>
 
     <dimen name="item_restaurant_image_radius">4dp</dimen>
+
+    <dimen name="user_location_map_padding_bottom">148dp</dimen>
+    <dimen name="user_location_map_padding_horizontal">16dp</dimen>
 </resources>

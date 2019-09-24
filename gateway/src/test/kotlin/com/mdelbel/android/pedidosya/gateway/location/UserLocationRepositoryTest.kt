@@ -48,5 +48,4 @@ class UserLocationRepositoryTest {
 
         assertThat(result).isEqualTo(expected)
     }
-
 }
