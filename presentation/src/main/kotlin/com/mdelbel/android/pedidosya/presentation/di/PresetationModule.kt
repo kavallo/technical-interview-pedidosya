@@ -13,7 +13,7 @@ val presentationModule = module {
 
     viewModel { UserLocationViewModel(userLocationRepository = get()) }
 
-    viewModel { RestaurantsViewModel(repository = get()) }
+    viewModel { RestaurantsViewModel(userLocationRepository = get(), restaurantsRepository = get()) }
 
     viewModel { NavigationViewModel() }
 }
