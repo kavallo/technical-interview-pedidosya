@@ -12,11 +12,11 @@
         tools:layout="@layout/screen_restaurants_on_list">
 
         <action
-            android:id="@+id/action_restaurantsOnListScreen_to_userLocationScreen"
+            android:id="@+id/action_restaurantsOnList_to_userLocation"
             app:destination="@id/userLocationScreen" />
 
         <action
-            android:id="@+id/action_restaurantsOnListScreen_to_restaurantsOnMapScreen"
+            android:id="@+id/action_restaurantsOnList_to_restaurantsOnMap"
             app:destination="@id/restaurantsOnMapScreen" />
     </fragment>
 
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/restaurantsOnMapScreen"
-        android:name="com.mdelbel.android.pedidosya.presentation.restaurants.map.RetaurantsOnMapScreen"
+        android:name="com.mdelbel.android.pedidosya.presentation.restaurants.map.RestaurantsOnMapScreen"
         android:label="RetaurantsOnMapScreen"
         tools:layout="@layout/screen_restaurants_on_map" />
 </navigation>

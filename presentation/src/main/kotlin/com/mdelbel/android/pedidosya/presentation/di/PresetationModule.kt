@@ -17,5 +17,7 @@ val presentationModule = module {
         RestaurantsViewModel(userLocationRepository = get(), restaurantsRepository = get())
     }
 
-    viewModel { RestaurantsOnMapViewModel(restaurantsCache = get()) }
+    viewModel {
+        RestaurantsOnMapViewModel(userLocationRepository = get(), restaurantsCache = get())
+    }
 }

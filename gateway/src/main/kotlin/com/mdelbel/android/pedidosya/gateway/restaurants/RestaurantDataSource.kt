@@ -24,14 +24,12 @@ internal class RestaurantDataSource(
         callback: LoadInitialCallback<Int, Restaurant>
     ) {
         fetch(page = 1, size = params.requestedLoadSize) { restaurants, next ->
-            cache.clearAndAddAll(restaurants)
             callback.onResult(restaurants, null, next)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Restaurant>) {
         fetch(page = params.key, size = params.requestedLoadSize) { restaurants, next ->
-            cache.addAll(restaurants)
             callback.onResult(restaurants, next)
         }
     }
@@ -42,6 +40,7 @@ internal class RestaurantDataSource(
         try {
             requestState.postValue(Loading)
             val (restaurants, next) = fetch(page = page, size = size)
+            cache.obtainOn(point, country).addAll(restaurants)
 
             requestState.postValue(Loaded)
             result(restaurants, next)

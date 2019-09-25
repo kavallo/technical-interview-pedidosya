@@ -58,10 +58,12 @@ class RestaurantsOnListScreen : Fragment() {
         activity!!.setSupportActionBar(toolbarView)
 
         toolbarView.setOnMenuItemClickListener {
-            when {
-                it.itemId == R.id.change_location -> findNavController().navigate(R.id.action_restaurantsOnListScreen_to_userLocationScreen)
-                it.itemId == R.id.show_on_map -> findNavController().navigate(R.id.action_restaurantsOnListScreen_to_restaurantsOnMapScreen)
+            val action = when (it.itemId) {
+                R.id.change_location -> R.id.action_restaurantsOnList_to_userLocation
+                R.id.show_on_map -> R.id.action_restaurantsOnList_to_restaurantsOnMap
+                else -> throw IllegalArgumentException("Cannot handle action ${it.itemId}")
             }
+            findNavController().navigate(action)
             true
         }
     }

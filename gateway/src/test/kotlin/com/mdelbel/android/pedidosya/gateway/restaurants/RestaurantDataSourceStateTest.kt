@@ -4,10 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
-import com.mdelbel.android.pedidosya.domain.Country
-import com.mdelbel.android.pedidosya.domain.Point
-import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.domain.Uruguay
+import com.mdelbel.android.pedidosya.domain.*
 import com.mdelbel.android.pedidosya.gateway.Failed
 import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.Loading
@@ -42,7 +39,10 @@ class RestaurantDataSourceStateTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(point, Uruguay, service)
+        val cache = mock<RestaurantsCache> {
+            on { obtainOn(point, Uruguay) } doReturn RestaurantCollection()
+        }
+        val source = RestaurantDataSource(point, Uruguay, service, cache)
 
         val params = PageKeyedDataSource.LoadInitialParams<Int>(20, true)
         val callback = mock<PageKeyedDataSource.LoadInitialCallback<Int, Restaurant>>()
@@ -74,7 +74,8 @@ class RestaurantDataSourceStateTest {
                 )
             } doThrow cause
         }
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, country, service, cache)
         val params = PageKeyedDataSource.LoadParams(1, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
 
@@ -106,7 +107,10 @@ class RestaurantDataSourceStateTest {
                 )
             } doReturn call
         }
-        val source = RestaurantDataSource(point, Uruguay, service)
+        val cache = mock<RestaurantsCache> {
+            on { obtainOn(point, Uruguay) } doReturn RestaurantCollection()
+        }
+        val source = RestaurantDataSource(point, Uruguay, service, cache)
 
         val params = PageKeyedDataSource.LoadParams(2, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
@@ -138,7 +142,8 @@ class RestaurantDataSourceStateTest {
                 )
             } doThrow cause
         }
-        val source = RestaurantDataSource(point, country, service)
+        val cache = mock<RestaurantsCache>()
+        val source = RestaurantDataSource(point, country, service, cache)
 
         val params = PageKeyedDataSource.LoadParams(2, 20)
         val callback = mock<PageKeyedDataSource.LoadCallback<Int, Restaurant>>()
