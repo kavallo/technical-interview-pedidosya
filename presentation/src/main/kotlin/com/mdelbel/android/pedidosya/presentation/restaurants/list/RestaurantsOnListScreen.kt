@@ -6,12 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.PagedListing
-import com.mdelbel.android.pedidosya.presentation.AuthenticationViewModel
 import com.mdelbel.android.pedidosya.presentation.R
 import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.MarginItemDecoration
 import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.RestaurantsAdapter
@@ -21,13 +17,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class RestaurantsOnListScreen : Fragment() {
 
     private val restaurantsViewModel by viewModel<RestaurantsOnListViewModel>()
-    private val authenticationViewModel by viewModel<AuthenticationViewModel>()
-
-    private var restaurantsAdapter =
-        RestaurantsAdapter()
-
-    private val permissionDelegate = PermissionDelegate() // TODO inject
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private var restaurantsAdapter = RestaurantsAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,40 +30,14 @@ class RestaurantsOnListScreen : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState == null) {
-            obtainAccessToken()
-            permissionDelegate.checkPermissionAndRequestItIfNeeded(restaurantsViewModel, activity!!)
-        }
 
         setUpToolbar()
-        observeViewState()
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+        observeRestaurantsNearLastKnownLocation() // TODO if bundle is null?
     }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionDelegate.onRequestPermissionsResult(
-            restaurantsViewModel, requestCode, grantResults
-        )
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_restaurants, menu)
-    }
-
-    private fun obtainAccessToken() {
-        authenticationViewModel.obtainAccessToken().observe(this, Observer { state ->
-            when (state) {
-                is Loaded -> observeRestaurantsNearLastKnownLocation()
-                // TODO handle Loading & Failed
-            }
-        })
     }
 
     private fun setUpToolbar() {
@@ -91,21 +55,6 @@ class RestaurantsOnListScreen : Fragment() {
             findNavController().navigate(action)
             true
         }
-    }
-
-    private fun observeViewState() {
-        restaurantsViewModel.viewState.observe(this, Observer { viewState ->
-            when (viewState) {
-                is PermissionGrantedState ->
-                    mFusedLocationClient.lastLocation.addOnSuccessListener(activity!!) { location ->
-                        if (location == null) {
-
-                        } else {
-
-                        }
-                    }
-            }
-        })
     }
 
     private fun observeRestaurantsNearLastKnownLocation() {

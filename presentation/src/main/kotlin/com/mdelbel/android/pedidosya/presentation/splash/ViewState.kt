@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.presentation.restaurants.list
+package com.mdelbel.android.pedidosya.presentation.splash
 
 sealed class ViewState
 
