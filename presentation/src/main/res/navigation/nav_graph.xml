@@ -7,8 +7,8 @@
 
     <fragment
             android:id="@+id/splashScreen"
-            android:name="com.mdelbel.android.pedidosya.presentation.splash.SplashScreen"
-            android:label="SplashScreen"
+            android:name="com.mdelbel.android.pedidosya.presentation.splash.RestaurantsSplashScreen"
+            android:label="RestaurantsSplashScreen"
             tools:layout="@layout/screen_splash">
 
         <action

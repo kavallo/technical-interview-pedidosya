@@ -32,7 +32,7 @@ class RestaurantsOnListScreen : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setUpToolbar()
-        observeRestaurantsNearLastKnownLocation() // TODO if bundle is null?
+        observeRestaurantsNearLastKnownLocation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -68,8 +68,7 @@ class RestaurantsOnListScreen : Fragment() {
     private fun setUpList() {
         restaurants.addItemDecoration(MarginItemDecoration())
 
-        restaurantsAdapter =
-            RestaurantsAdapter()
+        restaurantsAdapter = RestaurantsAdapter()
         restaurants.adapter = restaurantsAdapter
     }
 
