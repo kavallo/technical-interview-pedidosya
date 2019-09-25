@@ -13,7 +13,8 @@ import com.mdelbel.android.pedidosya.gateway.RequestState
 internal class RestaurantDataSource(
     private val point: Point,
     private val country: Country,
-    private val service: RestaurantsService
+    private val service: RestaurantsService,
+    private val cache: RestaurantsCache
 ) : PageKeyedDataSource<Int, Restaurant>() {
 
     internal val requestState = MutableLiveData<RequestState>()
@@ -39,6 +40,7 @@ internal class RestaurantDataSource(
         try {
             requestState.postValue(Loading)
             val (restaurants, next) = fetch(page = page, size = size)
+            cache.obtainOn(point, country).addAll(restaurants)
 
             requestState.postValue(Loaded)
             result(restaurants, next)

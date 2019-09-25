@@ -9,13 +9,14 @@ import com.mdelbel.android.pedidosya.domain.Restaurant
 internal class RestaurantDataSourceFactory(
     private val point: Point,
     private val country: Country,
-    private val service: RestaurantsService
+    private val service: RestaurantsService,
+    private val cache: RestaurantsCache
 ) : DataSource.Factory<Int, Restaurant>() {
 
     internal val sourceLiveData = MutableLiveData<RestaurantDataSource>()
 
     override fun create(): DataSource<Int, Restaurant> {
-        val dataSource = RestaurantDataSource(point, country, service)
+        val dataSource = RestaurantDataSource(point, country, service, cache)
         sourceLiveData.postValue(dataSource)
 
         return dataSource

@@ -10,14 +10,17 @@ import com.mdelbel.android.pedidosya.domain.Restaurant
 import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.gateway.RequestState
 
-class RestaurantsRepository internal constructor(private val service: RestaurantsService) {
+class RestaurantsRepository internal constructor(
+    private val service: RestaurantsService,
+    private val cache: RestaurantsCache
+) {
 
     companion object {
         private const val PAGE_SIZE = 20
     }
 
     fun fetchNearTo(point: Point, country: Country): PagedListing<Restaurant> {
-        val factory = RestaurantDataSourceFactory(point, country, service)
+        val factory = RestaurantDataSourceFactory(point, country, service, cache)
 
         return PagedListing(
             pagedList = pageFrom(factory),

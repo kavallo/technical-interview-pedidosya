@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.presentation.list
+package com.mdelbel.android.pedidosya.presentation.restaurants.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

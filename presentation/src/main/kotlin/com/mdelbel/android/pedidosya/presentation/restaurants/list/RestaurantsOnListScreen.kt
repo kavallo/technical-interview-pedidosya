@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.presentation
+package com.mdelbel.android.pedidosya.presentation.restaurants.list
 
 import android.os.Bundle
 import android.view.*
@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.mdelbel.android.pedidosya.domain.Restaurant
 import com.mdelbel.android.pedidosya.gateway.Loaded
 import com.mdelbel.android.pedidosya.gateway.PagedListing
-import com.mdelbel.android.pedidosya.presentation.list.MarginItemDecoration
-import com.mdelbel.android.pedidosya.presentation.list.RestaurantsAdapter
+import com.mdelbel.android.pedidosya.presentation.AuthenticationViewModel
+import com.mdelbel.android.pedidosya.presentation.R
 import kotlinx.android.synthetic.main.screen_restaurants_on_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -58,7 +58,12 @@ class RestaurantsOnListScreen : Fragment() {
         activity!!.setSupportActionBar(toolbarView)
 
         toolbarView.setOnMenuItemClickListener {
-            findNavController().navigate(R.id.action_restaurantsOnListScreen_to_userLocationScreen)
+            val action = when (it.itemId) {
+                R.id.change_location -> R.id.action_restaurantsOnList_to_userLocation
+                R.id.show_on_map -> R.id.action_restaurantsOnList_to_restaurantsOnMap
+                else -> throw IllegalArgumentException("Cannot handle action ${it.itemId}")
+            }
+            findNavController().navigate(action)
             true
         }
     }

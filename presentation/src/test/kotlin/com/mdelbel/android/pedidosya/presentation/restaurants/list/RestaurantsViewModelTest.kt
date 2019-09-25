@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.presentation
+package com.mdelbel.android.pedidosya.presentation.restaurants.list
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat

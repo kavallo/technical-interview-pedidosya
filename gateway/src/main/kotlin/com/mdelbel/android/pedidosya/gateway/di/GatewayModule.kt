@@ -5,6 +5,7 @@ import com.mdelbel.android.pedidosya.gateway.api.ApiClient
 import com.mdelbel.android.pedidosya.gateway.authentication.AuthenticationGateway
 import com.mdelbel.android.pedidosya.gateway.authentication.Keychain
 import com.mdelbel.android.pedidosya.gateway.location.UserLocationRepository
+import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsCache
 import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsRepository
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
@@ -27,7 +28,9 @@ val gatewayModule = module {
         apiClient.createAuthenticationService()
     }
 
-    single { RestaurantsRepository(service = get()) }
+    single { RestaurantsCache() }
+
+    single { RestaurantsRepository(service = get(), cache = get()) }
 
     single { UserLocationRepository(preferences = get()) }
 
