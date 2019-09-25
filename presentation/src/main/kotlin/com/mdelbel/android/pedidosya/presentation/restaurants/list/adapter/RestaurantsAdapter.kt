@@ -11,9 +11,7 @@ import com.mdelbel.android.pedidosya.gateway.RequestState
 import com.mdelbel.android.pedidosya.presentation.R
 
 internal class RestaurantsAdapter :
-    PagedListAdapter<Restaurant, RestaurantViewHolder>(
-        DIFF_CALLBACK
-    ) {
+    PagedListAdapter<Restaurant, RestaurantViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Restaurant>() {
@@ -31,9 +29,7 @@ internal class RestaurantsAdapter :
             .from(parent.context)
             .inflate(R.layout.item_restaurant, parent, false)
 
-        return RestaurantViewHolder(
-            view
-        )
+        return RestaurantViewHolder(view)
     }
 
     // TODO place holder handling

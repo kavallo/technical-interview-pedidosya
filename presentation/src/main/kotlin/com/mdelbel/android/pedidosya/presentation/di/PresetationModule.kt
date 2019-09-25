@@ -9,9 +9,13 @@ import org.koin.dsl.module
 
 val presentationModule = module {
 
-    viewModel { PreConditionMonitorViewModel(authenticationGateway = get()) }
+    viewModel {
+        PreConditionMonitorViewModel(authenticationGateway = get(), userLocationProvider = get())
+    }
 
-    viewModel { UserLocationViewModel(userLocationRepository = get()) }
+    viewModel {
+        UserLocationViewModel(userLocationRepository = get())
+    }
 
     viewModel {
         RestaurantsOnListViewModel(userLocationRepository = get(), restaurantsRepository = get())

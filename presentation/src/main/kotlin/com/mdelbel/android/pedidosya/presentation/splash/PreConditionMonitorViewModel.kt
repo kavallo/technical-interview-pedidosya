@@ -1,32 +1,49 @@
 package com.mdelbel.android.pedidosya.presentation.splash
 
-import android.location.Location
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.mdelbel.android.pedidosya.gateway.RequestState
+import com.mdelbel.android.pedidosya.gateway.Failed
+import com.mdelbel.android.pedidosya.gateway.Loaded
+import com.mdelbel.android.pedidosya.gateway.Loading
 import com.mdelbel.android.pedidosya.gateway.authentication.AuthenticationGateway
+import com.mdelbel.android.pedidosya.gateway.location.UserLocationProvider
+import com.mdelbel.android.pedidosya.presentation.splash.ConditionStatus.*
 
-class PreConditionMonitorViewModel(private val authenticationGateway: AuthenticationGateway) :
-    ViewModel() {
+class PreConditionMonitorViewModel(
+    private val authenticationGateway: AuthenticationGateway,
+    private val userLocationProvider: UserLocationProvider
+) : ViewModel() {
 
-    private val _viewState = MutableLiveData<ViewState>()
-    internal val viewState: LiveData<ViewState> get() = _viewState
+    private var generalCondition = GeneralCondition(token = WAITING, location = WAITING)
 
-    internal fun obtainAccessToken(): LiveData<RequestState> =
-        authenticationGateway.authenticate() //TODO
+    private val _preConditions = MediatorLiveData<GeneralCondition>()
+    internal val preConditions: LiveData<GeneralCondition> get() = _preConditions
+
+    internal fun obtainAccessToken() {
+        _preConditions.addSource(authenticationGateway.authenticate()) { authState ->
+            generalCondition = when (authState) {
+                is Loading -> generalCondition.copy(token = WAITING)
+                is Loaded -> generalCondition.copy(token = READY)
+                is Failed -> generalCondition.copy(token = FAILED)
+            }
+            _preConditions.postValue(generalCondition)
+        }
+    }
 
     internal fun onPermissionGranted() {
-        _viewState.postValue(PermissionGrantedState)
-        TODO()
+        _preConditions.addSource(userLocationProvider.fetchLastKnown()) { locationState ->
+            generalCondition = when (locationState) {
+                is Loading -> generalCondition.copy(location = WAITING)
+                is Loaded -> generalCondition.copy(location = READY)
+                is Failed -> generalCondition.copy(location = FAILED)
+            }
+            _preConditions.postValue(generalCondition)
+        }
     }
 
     internal fun onPermissionDenied() {
-        TODO()
+        generalCondition = generalCondition.copy(location = FAILED)
+        _preConditions.postValue(generalCondition)
     }
-
-    fun onLocationUpdated(location: Location?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }

@@ -18,4 +18,5 @@ dependencies {
     implementation gatewayDependencies.gsonConverter
     implementation gatewayDependencies.loggingInterceptor
     implementation gatewayDependencies.androidXCore
+    implementation gatewayDependencies.serviceLocation
 }
