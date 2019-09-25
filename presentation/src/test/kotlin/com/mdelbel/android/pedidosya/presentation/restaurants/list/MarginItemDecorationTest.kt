@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.view.View
 import com.google.common.truth.Truth.assertThat
 import com.mdelbel.android.pedidosya.presentation.R
+import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.MarginItemDecoration
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Test
@@ -19,7 +20,8 @@ class MarginItemDecorationTest {
             on { getDimensionPixelOffset(R.dimen.item_restaurant_margin_left) } doReturn 12
         }
         val mockedContext = mock<Context> { on { resources } doReturn mockedResources }
-        val itemDecoration = MarginItemDecoration()
+        val itemDecoration =
+            MarginItemDecoration()
         val rect = Rect()
         val view = mock<View> { on { context } doReturn mockedContext }
 
