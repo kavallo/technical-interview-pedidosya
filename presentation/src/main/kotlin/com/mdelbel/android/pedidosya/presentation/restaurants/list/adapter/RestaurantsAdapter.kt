@@ -11,6 +11,9 @@ internal class RestaurantsAdapter :
     PagedListAdapter<Restaurant, RestaurantViewHolder>(DIFF_CALLBACK) {
 
     companion object {
+
+        private const val FIRST_ITEM_POSITION = 0
+
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Restaurant>() {
 
             override fun areItemsTheSame(old: Restaurant, new: Restaurant) = old.id == new.id
@@ -34,4 +37,6 @@ internal class RestaurantsAdapter :
             false -> holder.bindTo(restaurant)
         }
     }
+
+    internal fun clear() = notifyItemRangeRemoved(FIRST_ITEM_POSITION, itemCount)
 }

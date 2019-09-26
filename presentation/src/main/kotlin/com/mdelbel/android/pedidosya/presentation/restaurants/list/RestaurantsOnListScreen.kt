@@ -33,6 +33,8 @@ class RestaurantsOnListScreen : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setUpToolbar()
+        setUpList()
+
         observeRestaurantsNearLastKnownLocation()
     }
 
@@ -58,19 +60,17 @@ class RestaurantsOnListScreen : Fragment() {
         }
     }
 
+    private fun setUpList() {
+        restaurants.addItemDecoration(MarginItemDecoration())
+        restaurants.adapter = restaurantsAdapter
+        restaurantsAdapter.clear()
+    }
+
     private fun observeRestaurantsNearLastKnownLocation() {
         val pagedListing = restaurantsViewModel.fetchRestaurantsNearLastKnownLocation()
 
-        setUpList()
         observeRestaurants(pagedListing)
         observeRequestState(pagedListing)
-    }
-
-    private fun setUpList() {
-        restaurants.addItemDecoration(MarginItemDecoration())
-
-        restaurantsAdapter = RestaurantsAdapter()
-        restaurants.adapter = restaurantsAdapter
     }
 
     private fun observeRestaurants(pagedListing: PagedListing<Restaurant>) {
@@ -81,6 +81,7 @@ class RestaurantsOnListScreen : Fragment() {
 
     private fun observeRequestState(pagedListing: PagedListing<Restaurant>) {
         pagedListing.requestState.observe(this, Observer { requestState ->
+            // TODO muestra el loading cuando viene de la seleccion de usaurio
             when (requestState) {
                 is Loading -> loading.visibility = View.VISIBLE
                 is Loaded -> {
