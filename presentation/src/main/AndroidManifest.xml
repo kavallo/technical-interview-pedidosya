@@ -2,6 +2,7 @@
           package="com.mdelbel.android.pedidosya.presentation">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application>
         <meta-data

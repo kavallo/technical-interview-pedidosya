@@ -15,7 +15,7 @@ import com.nhaarman.mockitokotlin2.verify
 import org.junit.Rule
 import org.junit.Test
 
-class RestaurantsViewModelTest {
+class RestaurantsOnListViewModelTest {
 
     @get:Rule
     var testRule = InstantTaskExecutorRule()
@@ -30,7 +30,7 @@ class RestaurantsViewModelTest {
         val restaurantsRepository = mock<RestaurantsRepository> {
             on { fetchNearTo(point, Uruguay) } doReturn expected
         }
-        val viewModel = RestaurantsViewModel(userLocationRepository, restaurantsRepository)
+        val viewModel = RestaurantsOnListViewModel(userLocationRepository, restaurantsRepository)
 
         val result = viewModel.fetchRestaurantsNearLastKnownLocation()
 
@@ -41,7 +41,7 @@ class RestaurantsViewModelTest {
     fun `fetchRestaurantsNearLastKnownLocation should pass Montevideo as default`() {
         val userLocationRepository = mock<UserLocationRepository>()
         val restaurantsRepository = mock<RestaurantsRepository>()
-        val viewModel = RestaurantsViewModel(userLocationRepository, restaurantsRepository)
+        val viewModel = RestaurantsOnListViewModel(userLocationRepository, restaurantsRepository)
 
         viewModel.fetchRestaurantsNearLastKnownLocation()
 

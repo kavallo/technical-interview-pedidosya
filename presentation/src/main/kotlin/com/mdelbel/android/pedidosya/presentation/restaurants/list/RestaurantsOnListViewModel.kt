@@ -8,7 +8,7 @@ import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.gateway.location.UserLocationRepository
 import com.mdelbel.android.pedidosya.gateway.restaurants.RestaurantsRepository
 
-class RestaurantsViewModel(
+class RestaurantsOnListViewModel(
     private val userLocationRepository: UserLocationRepository,
     private val restaurantsRepository: RestaurantsRepository
 ) : ViewModel() {

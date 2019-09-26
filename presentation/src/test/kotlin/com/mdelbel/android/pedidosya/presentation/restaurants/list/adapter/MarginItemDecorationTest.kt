@@ -1,4 +1,4 @@
-package com.mdelbel.android.pedidosya.presentation.restaurants.list
+package com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter
 
 import android.content.Context
 import android.content.res.Resources
