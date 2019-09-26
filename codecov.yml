@@ -9,9 +9,12 @@ ignore:
   - "**/RestaurantsRepository.kt"
   - "**/RestaurantsService.kt"
   - "**/UserLocationProvider.kt"
+  - "**/PagedListing.kt"
 
   # PRESENTATION
   - "**/RestaurantsSplashScreen.kt"
+  - "**/RestaurantsOnMapScreen.kt"
+  - "**/UserLocationScreen.kt"
   - "**/RestaurantsOnListScreen.kt"
   - "**/RestaurantsAdapter.kt"
   - "**/RestaurantViewHolder.kt"

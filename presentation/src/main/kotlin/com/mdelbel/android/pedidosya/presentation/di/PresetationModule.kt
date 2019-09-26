@@ -14,11 +14,11 @@ val presentationModule = module {
     }
 
     viewModel {
-        UserLocationViewModel(userLocationRepository = get())
+        RestaurantsOnListViewModel(userLocationRepository = get(), restaurantsRepository = get())
     }
 
     viewModel {
-        RestaurantsOnListViewModel(userLocationRepository = get(), restaurantsRepository = get())
+        UserLocationViewModel(userLocationRepository = get())
     }
 
     viewModel {

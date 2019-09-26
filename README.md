@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/matiasdelbel/technical-interview-pedidosya/branch/master/graph/badge.svg)](https://codecov.io/gh/matiasdelbel/technical-interview-pedidosya)
 
 ## Descripcion
-TODO
+Ejercicio tecnico utilizando las API de Pedidos Ya.
 
 ## Capturas
 ![Splash](captures/capture_splash.png)
