@@ -14,6 +14,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+    <ProgressBar
+            android:id="@+id/item_restaurant_loading"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
             android:id="@+id/item_restaurant_score"
             android:layout_width="50dp"

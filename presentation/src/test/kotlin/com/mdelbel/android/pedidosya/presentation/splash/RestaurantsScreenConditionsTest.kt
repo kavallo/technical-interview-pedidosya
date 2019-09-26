@@ -9,7 +9,7 @@ import org.junit.Test
 class RestaurantsScreenConditionsTest {
 
     @Test
-    fun `executeIfConditionsAreMet with auth and geo conditions not met should not execute it`() {
+    fun `executeIfConditions with auth and geo conditions not met should not execute it`() {
         val authenticationCondition = mock<AuthenticationCondition> {
             on { isConditionMet() } doReturn false
         }
@@ -18,13 +18,14 @@ class RestaurantsScreenConditionsTest {
         }
         val conditions = RestaurantsScreenConditions(authenticationCondition, geolocationCondition)
 
-        conditions.executeIfConditionsAreMet {
-            fail()
-        }
+        conditions.executeIfConditions(
+            areMet = { fail() },
+            onError = { assertTrue(true) }
+        )
     }
 
     @Test
-    fun `executeIfConditionsAreMet with auth condition not met should not execute it`() {
+    fun `executeIfConditions with auth condition not met should not execute it`() {
         val authenticationCondition = mock<AuthenticationCondition> {
             on { isConditionMet() } doReturn false
         }
@@ -33,13 +34,14 @@ class RestaurantsScreenConditionsTest {
         }
         val conditions = RestaurantsScreenConditions(authenticationCondition, geolocationCondition)
 
-        conditions.executeIfConditionsAreMet {
-            fail()
-        }
+        conditions.executeIfConditions(
+            areMet = { fail() },
+            onError = { assertTrue(true) }
+        )
     }
 
     @Test
-    fun `executeIfConditionsAreMet with geo condition not met should not execute it`() {
+    fun `executeIfConditions with geo condition not met should not execute it`() {
         val authenticationCondition = mock<AuthenticationCondition> {
             on { isConditionMet() } doReturn true
         }
@@ -48,13 +50,14 @@ class RestaurantsScreenConditionsTest {
         }
         val conditions = RestaurantsScreenConditions(authenticationCondition, geolocationCondition)
 
-        conditions.executeIfConditionsAreMet {
-            fail()
-        }
+        conditions.executeIfConditions(
+            areMet = { fail() },
+            onError = { fail() }
+        )
     }
 
     @Test
-    fun `executeIfConditionsAreMet with auth and geo condition met should not execute it`() {
+    fun `executeIfConditions with auth and geo condition met should not execute it`() {
         val authenticationCondition = mock<AuthenticationCondition> {
             on { isConditionMet() } doReturn true
         }
@@ -63,8 +66,9 @@ class RestaurantsScreenConditionsTest {
         }
         val conditions = RestaurantsScreenConditions(authenticationCondition, geolocationCondition)
 
-        conditions.executeIfConditionsAreMet {
-            assertTrue(true)
-        }
+        conditions.executeIfConditions(
+            areMet = { assertTrue(true) },
+            onError = { fail() }
+        )
     }
 }
