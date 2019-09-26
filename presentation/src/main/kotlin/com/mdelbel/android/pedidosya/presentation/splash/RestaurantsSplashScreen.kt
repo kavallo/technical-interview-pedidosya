@@ -40,6 +40,7 @@ class RestaurantsSplashScreen : Fragment() {
             it.executeIfConditionsAreMet {
                 findNavController().navigate(R.id.action_splash_to_restaurantsOnList)
             }
+            // TODO handle error on auth step
         })
     }
 

@@ -7,10 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.gateway.PagedListing
+import com.mdelbel.android.pedidosya.gateway.*
 import com.mdelbel.android.pedidosya.presentation.R
 import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.MarginItemDecoration
 import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.RestaurantsAdapter
+import com.mdelbel.android.pedidosya.presentation.splash.ConditionStatus
 import kotlinx.android.synthetic.main.screen_restaurants_on_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -79,8 +80,15 @@ class RestaurantsOnListScreen : Fragment() {
     }
 
     private fun observeRequestState(pagedListing: PagedListing<Restaurant>) {
-        pagedListing.requestState.observe(this, Observer {
-            // TODO
+        pagedListing.requestState.observe(this, Observer { requestState ->
+            when (requestState) {
+                is Loading -> loading.visibility = View.VISIBLE
+                is Loaded -> {
+                    loading.visibility = View.GONE
+                    pagedListing.requestState.removeObservers(this)
+                }
+                is Failed -> ConditionStatus.FAILED
+            }
         })
     }
 }
