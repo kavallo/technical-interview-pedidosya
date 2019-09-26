@@ -10,4 +10,7 @@
 
     <string name="restaurants_change_location">Localizar</string>
     <string name="restaurants_show_on_map">Mapa</string>
+
+    <string name="general_error_title">Ops! Algo no salio bien…</string>
+    <string name="general_error_description">No te preocupes, ve a tomarte una taza de cafe. Tenemos a nuestro mejor equipo de ingenieros trabajando para arreglar este problema.</string>
 </resources>

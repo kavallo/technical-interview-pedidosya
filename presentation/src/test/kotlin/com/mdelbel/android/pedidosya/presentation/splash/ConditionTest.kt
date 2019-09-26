@@ -48,4 +48,46 @@ class ConditionTest {
 
         assertTrue(condition.isConditionMet())
     }
+
+    @Test
+    fun `AuthenticationCondition hasFail with ready should return true`() {
+        val condition = AuthenticationCondition(READY)
+
+        assertFalse(condition.hasFail())
+    }
+
+    @Test
+    fun `AuthenticationCondition hasFail with waiting should return false`() {
+        val condition = AuthenticationCondition(WAITING)
+
+        assertFalse(condition.hasFail())
+    }
+
+    @Test
+    fun `AuthenticationCondition hasFail with failed should return false`() {
+        val condition = AuthenticationCondition(FAILED)
+
+        assertTrue(condition.hasFail())
+    }
+
+    @Test
+    fun `GeolocationCondition hasFail with ready should return true`() {
+        val condition = GeolocationCondition(READY)
+
+        assertFalse(condition.hasFail())
+    }
+
+    @Test
+    fun `GeolocationCondition hasFail with waiting should return false`() {
+        val condition = GeolocationCondition(WAITING)
+
+        assertFalse(condition.hasFail())
+    }
+
+    @Test
+    fun `GeolocationCondition hasFail with failed should return true`() {
+        val condition = GeolocationCondition(FAILED)
+
+        assertFalse(condition.hasFail())
+    }
 }

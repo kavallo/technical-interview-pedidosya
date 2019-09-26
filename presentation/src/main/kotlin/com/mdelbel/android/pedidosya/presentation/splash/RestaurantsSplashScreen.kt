@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mdelbel.android.pedidosya.presentation.R
+import kotlinx.android.synthetic.main.screen_error.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RestaurantsSplashScreen : Fragment() {
@@ -37,10 +38,13 @@ class RestaurantsSplashScreen : Fragment() {
         checkPermissionAndRequestItIfNeeded()
 
         preConditionsMonitorViewModel.preConditions.observe(this, Observer {
-            it.executeIfConditionsAreMet {
-                findNavController().navigate(R.id.action_splash_to_restaurantsOnList)
-            }
-            // TODO handle error on auth step
+            it.executeIfConditions(
+                areMet = {
+                    findNavController().navigate(R.id.action_splash_to_restaurantsOnList)
+                },
+                onError = {
+                    error_container.visibility = View.VISIBLE
+                })
         })
     }
 

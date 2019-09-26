@@ -23,33 +23,33 @@ internal class RestaurantDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, Restaurant>
     ) {
-        fetch(page = 1, size = params.requestedLoadSize) { result ->
-            callback.onResult(result.restaurants, 0, result.total, null, result.nextPage)
+        fetch(page = 1, size = params.requestedLoadSize) { restaurants, next, total ->
+            callback.onResult(restaurants, 0, total, null, next)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Restaurant>) {
-        fetch(page = params.key, size = params.requestedLoadSize) { fetchResult ->
-            callback.onResult(fetchResult.restaurants, fetchResult.nextPage)
+        fetch(page = params.key, size = params.requestedLoadSize) { restaurants, next, _ ->
+            callback.onResult(restaurants, next)
         }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Restaurant>) {}
 
-    private fun fetch(page: Int, size: Int, result: (FetchResult) -> Unit) {
+    private fun fetch(page: Int, size: Int, result: (List<Restaurant>, Int?, Int) -> Unit) {
         try {
             requestState.postValue(Loading)
-            val fetchResult = fetch(page = page, size = size)
-            cache.obtainOn(point, country).addAll(fetchResult.restaurants)
+            val (restaurants, next, total) = fetch(page = page, size = size)
+            cache.obtainOn(point, country).addAll(restaurants)
 
             requestState.postValue(Loaded)
-            result(fetchResult)
+            result(restaurants, next, total)
         } catch (exception: Exception) {
             requestState.postValue(Failed(cause = exception))
         }
     }
 
-    private fun fetch(page: Int, size: Int): FetchResult {
+    private fun fetch(page: Int, size: Int): Triple<List<Restaurant>, Int?, Int> {
         val restaurantsDto = service
             .fetchRestaurants(
                 coordinate = point.asString(),
@@ -62,8 +62,6 @@ internal class RestaurantDataSource(
 
         val nextPage = restaurantsDto!!.nextPage(current = page, pageSize = size)
 
-        return FetchResult(restaurantsDto.asModel(), nextPage, restaurantsDto.total)
+        return Triple(restaurantsDto.asModel(), nextPage, restaurantsDto.total)
     }
-
-    private data class FetchResult(val restaurants: List<Restaurant>, val nextPage: Int?, val total: Int)
 }

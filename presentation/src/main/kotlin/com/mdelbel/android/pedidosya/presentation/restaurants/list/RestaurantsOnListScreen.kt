@@ -7,18 +7,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mdelbel.android.pedidosya.domain.Restaurant
-import com.mdelbel.android.pedidosya.gateway.*
+import com.mdelbel.android.pedidosya.gateway.Failed
+import com.mdelbel.android.pedidosya.gateway.Loaded
+import com.mdelbel.android.pedidosya.gateway.Loading
+import com.mdelbel.android.pedidosya.gateway.PagedListing
 import com.mdelbel.android.pedidosya.presentation.R
 import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.MarginItemDecoration
 import com.mdelbel.android.pedidosya.presentation.restaurants.list.adapter.RestaurantsAdapter
-import com.mdelbel.android.pedidosya.presentation.splash.ConditionStatus
+import kotlinx.android.synthetic.main.screen_error.*
 import kotlinx.android.synthetic.main.screen_restaurants_on_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RestaurantsOnListScreen : Fragment() {
 
     private val restaurantsViewModel by viewModel<RestaurantsOnListViewModel>()
-    private var restaurantsAdapter = RestaurantsAdapter()
+    private lateinit var restaurantsAdapter: RestaurantsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +34,6 @@ class RestaurantsOnListScreen : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         setUpToolbar()
         setUpList()
 
@@ -45,7 +47,6 @@ class RestaurantsOnListScreen : Fragment() {
 
     private fun setUpToolbar() {
         setHasOptionsMenu(true)
-
         val activity = activity as AppCompatActivity?
         activity!!.setSupportActionBar(toolbarView)
 
@@ -62,8 +63,9 @@ class RestaurantsOnListScreen : Fragment() {
 
     private fun setUpList() {
         restaurants.addItemDecoration(MarginItemDecoration())
+
+        restaurantsAdapter = RestaurantsAdapter()
         restaurants.adapter = restaurantsAdapter
-        restaurantsAdapter.clear()
     }
 
     private fun observeRestaurantsNearLastKnownLocation() {
@@ -81,15 +83,25 @@ class RestaurantsOnListScreen : Fragment() {
 
     private fun observeRequestState(pagedListing: PagedListing<Restaurant>) {
         pagedListing.requestState.observe(this, Observer { requestState ->
-            // TODO muestra el loading cuando viene de la seleccion de usaurio
             when (requestState) {
-                is Loading -> loading.visibility = View.VISIBLE
-                is Loaded -> {
-                    loading.visibility = View.GONE
-                    pagedListing.requestState.removeObservers(this)
-                }
-                is Failed -> ConditionStatus.FAILED
+                is Loading -> onLoading()
+                is Loaded -> onLoaded(pagedListing)
+                is Failed -> onFailed()
             }
         })
+    }
+
+    private fun onLoading() {
+        loading.visibility = View.VISIBLE
+    }
+
+    private fun onLoaded(pagedListing: PagedListing<Restaurant>) {
+        loading.visibility = View.GONE
+        pagedListing.requestState.removeObservers(this)
+    }
+
+    private fun onFailed() {
+        loading.visibility = View.GONE
+        error_container.visibility = View.VISIBLE
     }
 }

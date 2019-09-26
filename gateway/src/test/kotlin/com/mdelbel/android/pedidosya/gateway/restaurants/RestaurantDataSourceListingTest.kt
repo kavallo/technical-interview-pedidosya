@@ -3,7 +3,10 @@ package com.mdelbel.android.pedidosya.gateway.restaurants
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PageKeyedDataSource
 import com.google.common.truth.Truth.assertThat
-import com.mdelbel.android.pedidosya.domain.*
+import com.mdelbel.android.pedidosya.domain.Country
+import com.mdelbel.android.pedidosya.domain.Point
+import com.mdelbel.android.pedidosya.domain.Restaurant
+import com.mdelbel.android.pedidosya.domain.RestaurantCollection
 import com.mdelbel.android.pedidosya.gateway.restaurants.dto.RestaurantCollectionDto
 import com.nhaarman.mockitokotlin2.*
 import org.junit.Rule
@@ -25,6 +28,7 @@ class RestaurantDataSourceListingTest {
         val expectedRestaurantsDto = mock<RestaurantCollectionDto> {
             on { asModel() } doReturn expectedRestaurants
             on { nextPage(1, 20) } doReturn 2
+            on { total } doReturn 100
         }
         val call = mock<Call<RestaurantCollectionDto>> {
             on { execute() } doReturn Response.success(expectedRestaurantsDto)
@@ -51,7 +55,7 @@ class RestaurantDataSourceListingTest {
 
         verify(cache).obtainOn(point, country)
         argumentCaptor<List<Restaurant>> {
-            verify(callback).onResult(capture(), eq(null), eq(2))
+            verify(callback).onResult(capture(), eq(0), eq(100), eq(null), eq(2))
             assertThat(firstValue).containsExactlyElementsIn(expectedRestaurants)
         }
     }
